@@ -62,6 +62,13 @@ quick-cv/
 ├── docs/       # Documentation and wireframes
 ```
 
+
+## UI
+<img width="1907" height="962" alt="image" src="https://github.com/user-attachments/assets/3eb05a07-2a4d-48a2-b221-752a4515cf9b" />
+<img width="1907" height="962" alt="image" src="https://github.com/user-attachments/assets/a1f0ad96-00d1-49c6-9eaa-afffc7c4660d" />
+<img width="1907" height="962" alt="image" src="https://github.com/user-attachments/assets/06dd7994-92bb-41a1-bfa7-8c91dd7a1b2a" />
+<img width="1907" height="962" alt="image" src="https://github.com/user-attachments/assets/825a4874-0fef-426e-a3d6-e2ac372c0873" />
+
 ## Contributing
 
 Contributions are welcome! Please open issues or submit pull requests for improvements and bug fixes.
