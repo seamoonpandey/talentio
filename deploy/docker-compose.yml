@@ -1,0 +1,26 @@
+version: '3.8'
+services:
+  backend:
+    build:
+      context: ../backend
+    env_file:
+      - ../backend/.env.prod
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mongo
+    restart: always
+
+  mongo:
+    image: mongo:7.0
+    container_name: quickcv-mongo
+    restart: always
+    environment:
+      MONGO_INITDB_DATABASE: quickcv
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+volumes:
+  mongo_data:
