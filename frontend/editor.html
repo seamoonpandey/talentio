@@ -62,11 +62,26 @@
       </div>
 
       <!-- TABS -->
-      <div class="editor-tabs" role="tablist" aria-label="CV sections">
-        <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="tab-personal" id="btn-personal" data-tab="personal">Personal</button>
-        <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-education" id="btn-education" data-tab="education">Education</button>
-        <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-experience" id="btn-experience" data-tab="experience">Experience</button>
-        <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-skills" id="btn-skills" data-tab="skills">Skills</button>
+      <div class="tab-bar">
+        <div class="editor-tabs" role="tablist" aria-label="CV sections">
+          <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="tab-personal" id="btn-personal" data-tab="personal">Personal</button>
+          <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-education" id="btn-education" data-tab="education">Education</button>
+          <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-experience" id="btn-experience" data-tab="experience">Experience</button>
+          <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-certificates" id="btn-certificates" data-tab="certificates">Certificates</button>
+          <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-custom" id="btn-custom" data-tab="custom">Custom Sections</button>
+          <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-skills" id="btn-skills" data-tab="skills">Skills</button>
+        </div>
+        <div class="tab-dropdown">
+          <label class="sr-only" for="section-select">Select section</label>
+          <select id="section-select" aria-label="Choose a section">
+            <option value="personal">Personal</option>
+            <option value="education">Education</option>
+            <option value="experience">Experience</option>
+            <option value="certificates">Certificates</option>
+            <option value="custom">Custom Sections</option>
+            <option value="skills">Skills</option>
+          </select>
+        </div>
       </div>
 
       <!-- TAB: PERSONAL INFO -->
@@ -116,6 +131,29 @@
           <button type="button" class="btn btn-sm btn-primary" id="add-experience-btn" aria-label="Add work experience entry">+ Add</button>
         </div>
         <div id="experience-list" aria-label="Work experience entries">
+          <!-- Entries injected by cvForm.js -->
+        </div>
+      </div>
+
+      <!-- TAB: CERTIFICATES -->
+      <div class="tab-panel hidden" id="tab-certificates" role="tabpanel" aria-labelledby="btn-certificates">
+        <div class="section-header">
+          <h2 class="section-title">Certificates</h2>
+          <button type="button" class="btn btn-sm btn-primary" id="add-certificate-btn" aria-label="Add certificate entry">+ Add</button>
+        </div>
+        <div id="certificate-list" aria-label="Certificate entries">
+          <!-- Entries injected by cvForm.js -->
+        </div>
+      </div>
+
+      <!-- TAB: CUSTOM SECTIONS -->
+      <div class="tab-panel hidden" id="tab-custom" role="tabpanel" aria-labelledby="btn-custom">
+        <div class="section-header">
+          <h2 class="section-title">Custom Sections</h2>
+          <button type="button" class="btn btn-sm btn-primary" id="add-custom-section-btn" aria-label="Add custom section">+ Add</button>
+        </div>
+        <p class="hint-text">Use this for Research, Publications, Awards, Volunteer work, or any unique section.</p>
+        <div id="custom-section-list" aria-label="Custom sections">
           <!-- Entries injected by cvForm.js -->
         </div>
       </div>

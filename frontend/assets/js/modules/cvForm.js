@@ -21,6 +21,8 @@ import {
   DEFAULT_CV,
   EMPTY_EDUCATION,
   EMPTY_EXPERIENCE,
+  EMPTY_CERTIFICATE,
+  EMPTY_CUSTOM_SECTION,
 } from "../utils/constants.js";
 
 // ── State ──────────────────────────────────────────────────
@@ -75,6 +77,8 @@ function populateForm() {
   renderEducationList();
   renderExperienceList();
   renderSkillsTags();
+  renderCertificateList();
+  renderCustomSectionList();
 }
 
 function setValue(id, value) {
@@ -98,6 +102,8 @@ function collectFormData() {
     education: cvData.education || [],
     experience: cvData.experience || [],
     skills: cvData.skills || [],
+    certificates: cvData.certificates || [],
+    custom_sections: cvData.custom_sections || [],
   };
 }
 
@@ -170,6 +176,10 @@ document.querySelectorAll(".tab-btn").forEach((btn) => {
   });
 });
 
+document.getElementById("section-select")?.addEventListener("change", (e) => {
+  switchTab(e.target.value);
+});
+
 function switchTab(tabName) {
   document.querySelectorAll(".tab-btn").forEach((btn) => {
     const isActive = btn.getAttribute("data-tab") === tabName;
@@ -181,6 +191,11 @@ function switchTab(tabName) {
     panel.classList.toggle("hidden", panel.id !== `tab-${tabName}`);
     panel.classList.toggle("active", panel.id === `tab-${tabName}`);
   });
+
+  const select = document.getElementById("section-select");
+  if (select && select.value !== tabName) {
+    select.value = tabName;
+  }
 }
 
 // ── EDUCATION ──────────────────────────────────────────────
@@ -219,6 +234,193 @@ function renderExperienceList() {
     const card = createEntryCard("experience", index, exp);
     container.appendChild(card);
   });
+}
+
+// ── CERTIFICATES ──────────────────────────────────────────
+document
+  .getElementById("add-certificate-btn")
+  ?.addEventListener("click", () => {
+    cvData.certificates = cvData.certificates || [];
+    cvData.certificates.push({ ...EMPTY_CERTIFICATE });
+    renderCertificateList();
+    triggerPreviewUpdate();
+  });
+
+function renderCertificateList() {
+  const container = document.getElementById("certificate-list");
+  if (!container) return;
+  container.innerHTML = "";
+
+  (cvData.certificates || []).forEach((cert, index) => {
+    const card = createCertificateCard(index, cert);
+    container.appendChild(card);
+  });
+}
+
+function createCertificateCard(index, data) {
+  const card = document.createElement("div");
+  card.className = "entry-card";
+  card.setAttribute("data-index", index);
+
+  card.innerHTML = `
+    <div class="entry-card-header">
+      <span class="entry-card-title">${escapeHtml(
+        data.name || `Certificate ${index + 1}`
+      )}</span>
+      <button
+        type="button"
+        class="entry-remove-btn"
+        data-index="${index}"
+        aria-label="Remove certificate ${index + 1}"
+      >✕ Remove</button>
+    </div>
+
+    <div class="form-group">
+      <label for="cert-name-${index}">Certificate Name</label>
+      <input
+        type="text"
+        id="cert-name-${index}"
+        value="${escapeHtml(data.name || "")}"
+        placeholder="e.g. AWS Solutions Architect"
+        data-index="${index}"
+        data-key="name"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="cert-issuer-${index}">Issuer</label>
+      <input
+        type="text"
+        id="cert-issuer-${index}"
+        value="${escapeHtml(data.issuer || "")}"
+        placeholder="e.g. Amazon Web Services"
+        data-index="${index}"
+        data-key="issuer"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="cert-date-${index}">Date</label>
+      <input
+        type="text"
+        id="cert-date-${index}"
+        value="${escapeHtml(data.date || "")}"
+        placeholder="e.g. Mar 2024"
+        data-index="${index}"
+        data-key="date"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="cert-desc-${index}">Details</label>
+      <textarea
+        id="cert-desc-${index}"
+        rows="3"
+        placeholder="Brief details or credential ID..."
+        data-index="${index}"
+        data-key="description"
+      >${escapeHtml(data.description || "")}</textarea>
+    </div>
+  `;
+
+  card.querySelectorAll("input, textarea").forEach((el) => {
+    el.addEventListener("input", (e) => {
+      const { index: i, key } = e.target.dataset;
+      if (cvData.certificates[i]) cvData.certificates[i][key] = e.target.value;
+      triggerPreviewUpdate();
+    });
+  });
+
+  card.querySelector(".entry-remove-btn")?.addEventListener("click", (e) => {
+    const i = Number(e.target.dataset.index);
+    cvData.certificates.splice(i, 1);
+    renderCertificateList();
+    triggerPreviewUpdate();
+  });
+
+  return card;
+}
+
+// ── CUSTOM SECTIONS ───────────────────────────────────────
+document
+  .getElementById("add-custom-section-btn")
+  ?.addEventListener("click", () => {
+    cvData.custom_sections = cvData.custom_sections || [];
+    cvData.custom_sections.push({ ...EMPTY_CUSTOM_SECTION });
+    renderCustomSectionList();
+    triggerPreviewUpdate();
+  });
+
+function renderCustomSectionList() {
+  const container = document.getElementById("custom-section-list");
+  if (!container) return;
+  container.innerHTML = "";
+
+  (cvData.custom_sections || []).forEach((section, index) => {
+    const card = createCustomSectionCard(index, section);
+    container.appendChild(card);
+  });
+}
+
+function createCustomSectionCard(index, data) {
+  const card = document.createElement("div");
+  card.className = "entry-card";
+  card.setAttribute("data-index", index);
+
+  card.innerHTML = `
+    <div class="entry-card-header">
+      <span class="entry-card-title">${escapeHtml(
+        data.title || `Section ${index + 1}`
+      )}</span>
+      <button
+        type="button"
+        class="entry-remove-btn"
+        data-index="${index}"
+        aria-label="Remove custom section ${index + 1}"
+      >✕ Remove</button>
+    </div>
+
+    <div class="form-group">
+      <label for="custom-title-${index}">Section Title</label>
+      <input
+        type="text"
+        id="custom-title-${index}"
+        value="${escapeHtml(data.title || "")}"
+        placeholder="e.g. Research, Publications, Awards"
+        data-index="${index}"
+        data-key="title"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="custom-content-${index}">Content</label>
+      <textarea
+        id="custom-content-${index}"
+        rows="4"
+        placeholder="Add bullet points, highlights, or a brief paragraph..."
+        data-index="${index}"
+        data-key="content"
+      >${escapeHtml(data.content || "")}</textarea>
+    </div>
+  `;
+
+  card.querySelectorAll("input, textarea").forEach((el) => {
+    el.addEventListener("input", (e) => {
+      const { index: i, key } = e.target.dataset;
+      if (cvData.custom_sections[i])
+        cvData.custom_sections[i][key] = e.target.value;
+      triggerPreviewUpdate();
+    });
+  });
+
+  card.querySelector(".entry-remove-btn")?.addEventListener("click", (e) => {
+    const i = Number(e.target.dataset.index);
+    cvData.custom_sections.splice(i, 1);
+    renderCustomSectionList();
+    triggerPreviewUpdate();
+  });
+
+  return card;
 }
 
 // ── Generic Entry Card Builder ─────────────────────────────
@@ -409,6 +611,8 @@ function triggerPreviewUpdate() {
   current.education = cvData.education;
   current.experience = cvData.experience;
   current.skills = cvData.skills;
+  current.certificates = cvData.certificates;
+  current.custom_sections = cvData.custom_sections;
   cvData = current;
   updatePreview(cvData, currentTemplate);
 }

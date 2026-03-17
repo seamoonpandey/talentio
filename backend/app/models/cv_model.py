@@ -18,6 +18,8 @@ def new_cv_doc(user_id, title="Untitled CV", template="modern"):
         "education": [],
         "experience": [],
         "skills": [],
+        "certificates": [],
+        "custom_sections": [],
         "created_at": datetime.now(timezone.utc),
         "updated_at": datetime.now(timezone.utc)
     }

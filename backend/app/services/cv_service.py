@@ -30,6 +30,8 @@ def create_cv(user_id, data):
     doc["education"] = data.get("education", [])
     doc["experience"] = data.get("experience", [])
     doc["skills"] = data.get("skills", [])
+    doc["certificates"] = data.get("certificates", [])
+    doc["custom_sections"] = data.get("custom_sections", [])
 
     result = db.cvs.insert_one(doc)
     doc["_id"] = str(result.inserted_id)
@@ -46,6 +48,8 @@ def update_cv(cv_id, user_id, data):
         "education": data.get("education", []),
         "experience": data.get("experience", []),
         "skills": data.get("skills", []),
+        "certificates": data.get("certificates", []),
+        "custom_sections": data.get("custom_sections", []),
         "updated_at": datetime.now(timezone.utc)
     }
 

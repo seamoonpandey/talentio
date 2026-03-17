@@ -33,6 +33,8 @@ export const DEFAULT_CV = {
   education: [],
   experience: [],
   skills: [],
+  certificates: [],
+  custom_sections: [],
 };
 
 export const EMPTY_EDUCATION = {
@@ -49,4 +51,16 @@ export const EMPTY_EXPERIENCE = {
   start_date: "",
   end_date: "",
   description: "",
+};
+
+export const EMPTY_CERTIFICATE = {
+  name: "",
+  issuer: "",
+  date: "",
+  description: "",
+};
+
+export const EMPTY_CUSTOM_SECTION = {
+  title: "",
+  content: "",
 };
