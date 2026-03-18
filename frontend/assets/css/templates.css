@@ -1,3 +1,9 @@
+/* Fix: Make links in modern header white for visibility */
+.template-modern .cv-header a {
+  color: #fff;
+  text-decoration: underline;
+  word-break: break-all;
+}
 /* =========================================================
    TEMPLATES CSS — 3 CV Template Styles
    Modern | Classic | Minimal
