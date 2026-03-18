@@ -2,7 +2,8 @@
 // CONSTANTS — Quick CV
 // =========================================================
 
-export const API_BASE = "http://127.0.0.1:5000/api";
+// API_BASE is loaded from window._env_ or defaults to localhost
+export const API_BASE = window._env_?.API_BASE || "http://127.0.0.1:5000/api";
 
 export const ROUTES = {
   LOGIN: "login.html",

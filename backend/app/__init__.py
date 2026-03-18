@@ -10,7 +10,8 @@ def create_app():
     app.config.from_object(Config)
 
     # Extensions
-    CORS(app, supports_credentials=True, origins=["http://127.0.0.1:5500", "http://localhost:5500"])
+    origins = [o.strip() for o in app.config.get("CORS_ORIGINS", "").split(",") if o.strip()]
+    CORS(app, supports_credentials=True, origins=origins)
     bcrypt.init_app(app)
     login_manager.init_app(app)
 
