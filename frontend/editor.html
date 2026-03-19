@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Edit your CV with live preview." />
   <title>CV Editor — Quick CV</title>
+  <link rel="icon" type="image/png" href="public/favicon.png" />
   <link rel="stylesheet" href="assets/css/base.css" />
   <link rel="stylesheet" href="assets/css/editor.css" />
   <link rel="stylesheet" href="assets/css/templates.css" />
@@ -18,8 +19,8 @@
   <!-- NAVBAR -->
   <nav class="navbar" role="navigation" aria-label="Main navigation">
     <div class="nav-brand">
-      <a href="dashboard.html" aria-label="Back to Dashboard">
-        <span class="brand-icon">⚡</span> Quick CV
+      <a href="dashboard.html" aria-label="Back to Dashboard" style="display: flex; align-items: center;">
+        <img src="public/logo.png" alt="Quick CV Logo" style="height: 10em; width: 10em; object-fit: contain; vertical-align: middle;" />
       </a>
     </div>
     <div class="nav-links nav-editor-actions">
@@ -45,19 +46,9 @@
           <label for="cv-title">CV Title</label>
           <input type="text" id="cv-title" placeholder="e.g. Software Engineer CV" aria-label="CV title" />
         </div>
-        <div class="form-group">
-          <label for="template-select">Template</label>
-          <div class="template-selector" role="group" aria-label="Choose a CV template">
-            <button type="button" class="template-btn active" data-template="modern" aria-pressed="true">
-              Modern
-            </button>
-            <button type="button" class="template-btn" data-template="classic" aria-pressed="false">
-              Classic
-            </button>
-            <button type="button" class="template-btn" data-template="minimal" aria-pressed="false">
-              Minimal
-            </button>
-          </div>
+        <div class="form-group template-hint">
+          <label>Template</label>
+          <p class="hint-text">Pick a template from the right rail to see an instant preview.</p>
         </div>
       </div>
 
@@ -191,10 +182,43 @@
         <span class="preview-label">Live Preview</span>
         <span class="preview-template-badge" id="preview-template-badge">Modern</span>
       </div>
-      <div class="preview-wrapper">
-        <div id="cv-preview" class="cv-preview template-modern" aria-live="polite" aria-label="CV preview">
-          <!-- Rendered by preview.js -->
+
+      <div class="preview-body">
+        <div class="preview-wrapper">
+          <div id="cv-preview" class="cv-preview template-modern" aria-live="polite" aria-label="CV preview">
+            <!-- Rendered by preview.js -->
+          </div>
         </div>
+
+        <aside class="template-rail" aria-label="Choose a CV template">
+          <div class="template-rail-header">
+            <p class="template-rail-title">Templates</p>
+            <p class="template-rail-sub">See the style before applying.</p>
+          </div>
+          <div class="template-rail-list" role="group" aria-label="Template choices">
+            <button type="button" class="template-btn template-card active" data-template="modern" aria-pressed="true">
+              <span class="template-thumb template-thumb-modern" aria-hidden="true"></span>
+              <span class="template-card-text">
+                <span class="template-card-title">Modern</span>
+                <span class="template-card-sub">Bold header, accent color</span>
+              </span>
+            </button>
+            <button type="button" class="template-btn template-card" data-template="classic" aria-pressed="false">
+              <span class="template-thumb template-thumb-classic" aria-hidden="true"></span>
+              <span class="template-card-text">
+                <span class="template-card-title">Classic</span>
+                <span class="template-card-sub">Timeless black & serif</span>
+              </span>
+            </button>
+            <button type="button" class="template-btn template-card" data-template="minimal" aria-pressed="false">
+              <span class="template-thumb template-thumb-minimal" aria-hidden="true"></span>
+              <span class="template-card-text">
+                <span class="template-card-title">Minimal</span>
+                <span class="template-card-sub">Clean grid, light lines</span>
+              </span>
+            </button>
+          </div>
+        </aside>
       </div>
     </main>
 
