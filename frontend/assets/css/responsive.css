@@ -50,6 +50,32 @@
     min-height: 80vh;
   }
 
+  .preview-body {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    padding-right: 0;
+  }
+
+  .template-rail {
+    width: 100%;
+    border-left: none;
+    border-top: 1px solid var(--color-border);
+    box-shadow: none;
+    position: relative;
+    height: auto;
+  }
+
+  .template-rail-list {
+    flex-direction: row;
+    overflow-x: auto;
+    gap: 0.75rem;
+  }
+
+  .template-btn {
+    min-width: 220px;
+  }
+
   .preview-wrapper {
     padding: 1rem;
   }
@@ -144,6 +170,7 @@
   .navbar,
   .editor-panel,
   .preview-toolbar,
+  .template-rail,
   .footer {
     display: none !important;
   }
