@@ -67,6 +67,59 @@
   gap: 1.5rem;
 }
 
+/* Sample CVs */
+.sample-section {
+  margin-top: 3rem;
+  padding-top: 2.5rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.sample-header h2 {
+  font-size: var(--font-size-xl);
+  font-weight: 800;
+}
+
+.sample-sub {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  margin-top: 0.35rem;
+}
+
+.sample-grid {
+  margin-top: 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.sample-card {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 1rem 1.25rem;
+  background: var(--color-bg-white);
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  text-decoration: none;
+  color: var(--color-text);
+  transition: box-shadow var(--transition), transform var(--transition);
+}
+
+.sample-card:hover {
+  box-shadow: var(--shadow-base);
+  transform: translateY(-2px);
+}
+
+.sample-title {
+  font-weight: 700;
+  font-size: var(--font-size-base);
+}
+
+.sample-meta {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
 /* CV Card */
 .cv-card {
   background: var(--color-bg-white);
