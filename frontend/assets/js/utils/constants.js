@@ -26,6 +26,7 @@ export const DEFAULT_CV = {
   template: "modern",
   personal_info: {
     full_name: "",
+    profile_image: "",
     email: "",
     phone: "",
     location: "",

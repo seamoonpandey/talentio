@@ -29,6 +29,7 @@ export function renderTemplate(cvData, template = "modern") {
     : false;
 
   const hasContent =
+    pi.profile_image ||
     pi.full_name ||
     pi.email ||
     hasSocialLinks ||
@@ -59,6 +60,15 @@ function renderHeader(pi, template) {
   const contactParts = [];
   const socialLinks = Array.isArray(pi.social_links) ? pi.social_links : [];
 
+  const profileImageUrl = pi.profile_image ? escapeHtml(pi.profile_image) : "";
+  const profileImageHtml = profileImageUrl
+    ? `
+      <div class="cv-profile-image-wrap" aria-hidden="true">
+        <img class="cv-profile-image" src="${profileImageUrl}" alt="" />
+      </div>
+    `
+    : "";
+
   if (pi.email) contactParts.push(`<span>${escapeHtml(pi.email)}</span>`);
   if (pi.phone) contactParts.push(`<span>${escapeHtml(pi.phone)}</span>`);
   if (pi.location) contactParts.push(`<span>${escapeHtml(pi.location)}</span>`);
@@ -83,8 +93,13 @@ function renderHeader(pi, template) {
 
   return `
     <div class="cv-header">
-      <h1 class="cv-name">${name}</h1>
-      ${contactHtml}
+      <div class="cv-header-grid">
+        ${profileImageHtml}
+        <div class="cv-header-text">
+          <h1 class="cv-name">${name}</h1>
+          ${contactHtml}
+        </div>
+      </div>
     </div>
   `;
 }

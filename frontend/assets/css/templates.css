@@ -35,6 +35,29 @@
   font-size: 0.9rem;
 }
 
+/* Header with optional profile image */
+.cv-header-grid {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.cv-profile-image-wrap {
+  flex: 0 0 auto;
+}
+
+.cv-profile-image {
+  width: 84px;
+  height: 84px;
+  border-radius: 999px;
+  object-fit: cover;
+  display: block;
+}
+
+.cv-header-text {
+  min-width: 0;
+}
+
 /* ==============================
    TEMPLATE: MODERN
    ============================== */
@@ -44,6 +67,10 @@
   padding: 1.5rem;
   margin: -20mm -20mm 1.5rem -20mm;
   border-bottom: none;
+}
+
+.template-modern .cv-profile-image {
+  border: 2px solid rgba(255, 255, 255, 0.75);
 }
 
 .template-modern .cv-name {
@@ -143,6 +170,14 @@
   text-align: center;
 }
 
+.template-classic .cv-header-grid {
+  flex-direction: column;
+}
+
+.template-classic .cv-profile-image {
+  border: 2px solid #000;
+}
+
 .template-classic .cv-name {
   font-size: 1.8rem;
   font-weight: 700;
@@ -227,6 +262,10 @@
   padding-bottom: 1rem;
   border-left: 4px solid #64748b;
   padding-left: 1rem;
+}
+
+.template-minimal .cv-profile-image {
+  border: 1px solid #cbd5e1;
 }
 
 .template-minimal .cv-name {
