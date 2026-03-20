@@ -30,6 +30,8 @@ let cvId = null;
 let currentTemplate = "modern";
 let cvData = JSON.parse(JSON.stringify(DEFAULT_CV));
 
+const MAX_PROFILE_IMAGE_BYTES = 2 * 1024 * 1024; // 2MB
+
 // ── Init ───────────────────────────────────────────────────
 async function init() {
   // Auth guard
@@ -72,6 +74,7 @@ function populateForm() {
 
   setValue("cv-title", cvData.title);
   setValue("pi-name", pi.full_name);
+  syncProfileImageUI(pi.profile_image || "");
   setValue("pi-email", pi.email);
   setValue("pi-phone", pi.phone);
   setValue("pi-location", pi.location);
@@ -85,6 +88,62 @@ function populateForm() {
   renderCertificateList();
   renderCustomSectionList();
 }
+
+// ── Profile Image ─────────────────────────────────────────
+function syncProfileImageUI(dataUrl) {
+  const previewWrap = document.getElementById("pi-profile-image-preview");
+  const previewImg = document.getElementById("pi-profile-image-preview-img");
+  const removeBtn = document.getElementById("pi-profile-image-remove");
+
+  const hasImage = Boolean(dataUrl);
+  if (previewWrap) previewWrap.hidden = !hasImage;
+  if (previewImg) previewImg.src = hasImage ? dataUrl : "";
+  if (removeBtn) removeBtn.disabled = !hasImage;
+}
+
+document.getElementById("pi-profile-image")?.addEventListener("change", (e) => {
+  const file = e.target.files && e.target.files[0];
+  if (!file) return;
+
+  if (!file.type || !file.type.startsWith("image/")) {
+    showAlert("alert-box", "Please select an image file.", "error");
+    e.target.value = "";
+    return;
+  }
+
+  if (file.size > MAX_PROFILE_IMAGE_BYTES) {
+    showAlert("alert-box", "Image is too large. Please use an image under 2MB.", "error");
+    e.target.value = "";
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = () => {
+    const dataUrl = typeof reader.result === "string" ? reader.result : "";
+    if (!cvData.personal_info) cvData.personal_info = {};
+    cvData.personal_info.profile_image = dataUrl;
+    syncProfileImageUI(dataUrl);
+    triggerPreviewUpdate();
+    autoSave();
+  };
+  reader.onerror = () => {
+    showAlert("alert-box", "Failed to read image file.", "error");
+  };
+
+  reader.readAsDataURL(file);
+});
+
+document.getElementById("pi-profile-image-remove")?.addEventListener("click", () => {
+  if (!cvData.personal_info) cvData.personal_info = {};
+  cvData.personal_info.profile_image = "";
+
+  const fileInput = document.getElementById("pi-profile-image");
+  if (fileInput) fileInput.value = "";
+
+  syncProfileImageUI("");
+  triggerPreviewUpdate();
+  autoSave();
+});
 
 function setValue(id, value) {
   const el = document.getElementById(id);
@@ -182,6 +241,7 @@ function collectFormData() {
     template: currentTemplate,
     personal_info: {
       full_name: document.getElementById("pi-name")?.value || "",
+      profile_image: pi.profile_image || "",
       email: document.getElementById("pi-email")?.value || "",
       phone: document.getElementById("pi-phone")?.value || "",
       location: document.getElementById("pi-location")?.value || "",

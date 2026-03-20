@@ -9,6 +9,7 @@ def new_cv_doc(user_id, title="Untitled CV", template="modern"):
         "template": template,
         "personal_info": {
             "full_name": "",
+            "profile_image": "",
             "email": "",
             "phone": "",
             "location": "",

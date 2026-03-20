@@ -82,6 +82,21 @@
           <label for="pi-name">Full Name</label>
           <input type="text" id="pi-name" placeholder="John Doe" autocomplete="name" />
         </div>
+
+        <div class="form-group">
+          <div class="section-header">
+            <div>
+              <label for="pi-profile-image">Profile Image (optional)</label>
+              <p class="hint-text">Shown on your CV header (if provided).</p>
+            </div>
+            <button type="button" class="btn btn-sm btn-ghost" id="pi-profile-image-remove" aria-label="Remove profile image" disabled>Remove</button>
+          </div>
+          <input type="file" id="pi-profile-image" accept="image/*" aria-label="Upload profile image" />
+          <div class="profile-image-preview" id="pi-profile-image-preview" aria-label="Profile image preview" hidden>
+            <img id="pi-profile-image-preview-img" alt="Profile image preview" />
+          </div>
+        </div>
+
         <div class="form-group">
           <label for="pi-email">Email Address</label>
           <input type="email" id="pi-email" placeholder="john@example.com" autocomplete="email" />
