@@ -39,12 +39,16 @@ Talentio is a modern web-based application for building, previewing, and exporti
 1. **Set up the backend:**
 
  ```bash
- cd backend
- python -m venv venv
- source venv/bin/activate  # On Windows: venv\Scripts\activate
- pip install -r requirements.txt
- cp .env.example .env      # Create your .env file with the required variables
- python run.py
+cd backend
+python -m venv venv
+
+venv\Scripts\activate
+
+pip install -r requirements.txt
+
+copy .env.example .env
+
+python run.py
  ```
 
 ### Cloudinary (Profile Image Uploads)
