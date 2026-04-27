@@ -7,7 +7,12 @@
 
 import { apiGetMe } from "../api/authApi.js";
 import { apiGetCV, apiCreateCV, apiUpdateCV } from "../api/cvApi.js";
-import { apiGetCloudinarySignature, apiUploadImageToCloudinary } from "../api/uploadApi.js";
+import {
+  apiGetCloudinarySignature,
+  apiGetUploadConfig,
+  apiUploadImageToCloudinary,
+  apiUploadProfileImageLocal,
+} from "../api/uploadApi.js";
 import { updatePreview } from "./preview.js";
 import { exportToPDF } from "./pdfExport.js";
 import {
@@ -128,24 +133,41 @@ async function uploadProfileImage(file, inputEl) {
     if (inputEl) inputEl.disabled = true;
     if (statusEl) statusEl.textContent = "Uploading image...";
 
-    const sigRes = await apiGetCloudinarySignature();
-    if (!sigRes?.success || !sigRes.data) {
-      showAlert("alert-box", sigRes?.message || "Unable to start image upload.", "error");
+    const cfgRes = await apiGetUploadConfig();
+    if (!cfgRes?.success || !cfgRes.data) {
+      showAlert("alert-box", cfgRes?.message || "Unable to start image upload.", "error");
       return;
     }
 
-    const uploadRes = await apiUploadImageToCloudinary(file, sigRes.data);
-    const secureUrl = uploadRes && (uploadRes.secure_url || uploadRes.url);
-    if (!secureUrl) {
-      const msg = uploadRes?.error?.message || "Image upload failed.";
-      showAlert("alert-box", msg, "error");
-      return;
+    let finalImageUrl = "";
+
+    if (cfgRes.data.storage === "local") {
+      const localRes = await apiUploadProfileImageLocal(file);
+      if (!localRes?.success || !localRes?.data?.url) {
+        showAlert("alert-box", localRes?.message || "Image upload failed.", "error");
+        return;
+      }
+      finalImageUrl = localRes.data.url;
+    } else {
+      const sigRes = await apiGetCloudinarySignature();
+      if (!sigRes?.success || !sigRes.data) {
+        showAlert("alert-box", sigRes?.message || "Unable to start cloud upload.", "error");
+        return;
+      }
+
+      const uploadRes = await apiUploadImageToCloudinary(file, sigRes.data);
+      finalImageUrl = uploadRes && (uploadRes.secure_url || uploadRes.url);
+      if (!finalImageUrl) {
+        const msg = uploadRes?.error?.message || "Image upload failed.";
+        showAlert("alert-box", msg, "error");
+        return;
+      }
     }
 
     if (!cvData.personal_info) cvData.personal_info = {};
-    cvData.personal_info.profile_image = secureUrl;
+    cvData.personal_info.profile_image = finalImageUrl;
 
-    syncProfileImageUI(secureUrl);
+    syncProfileImageUI(finalImageUrl);
     triggerPreviewUpdate();
     await autoSave();
   } catch (err) {

@@ -14,3 +14,18 @@ class Config:
     REMEMBER_COOKIE_HTTPONLY = True
     # CORS origins (comma-separated)
     CORS_ORIGINS = os.environ.get("CORS_ORIGINS", "http://127.0.0.1:5500,http://localhost:5500")
+
+    # File storage: `local` stores under UPLOAD_DIR, `cloud` uses Cloudinary
+    # Backward compatibility: FILE_STORAGE / LOCAL_UPLOAD_DIR are still respected.
+    UPLOAD_STORAGE = os.environ.get("UPLOAD_STORAGE", os.environ.get("FILE_STORAGE", "cloud")).strip().lower()
+    _backend_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+    UPLOAD_DIR = os.path.abspath(
+        os.environ.get(
+            "UPLOAD_DIR",
+            os.environ.get("LOCAL_UPLOAD_DIR", os.path.join(_backend_root, "uploads")),
+        )
+    )
+    try:
+        MAX_IMAGE_UPLOAD_BYTES = int(os.environ.get("MAX_IMAGE_UPLOAD_BYTES", "2097152"))
+    except ValueError:
+        MAX_IMAGE_UPLOAD_BYTES = 2097152
