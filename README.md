@@ -65,7 +65,8 @@ Set these environment variables in your backend `.env`:
 1. **Open the frontend:**
 
 - Open `frontend/index.html` in your browser
-- Or use VS Code Live Server for local development
+- Or use VS Code Live Server for local development on `http://127.0.0.1:5500`
+- The workspace is configured to use port `5500` in `.vscode/settings.json`
 
 ## Project Structure
 
